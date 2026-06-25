@@ -1,16 +1,5 @@
 import { useEffect, useState } from 'react'
 
-interface Workout {
-  _id: string
-  userId: string
-  title: string
-  description: string
-  durationMinutes: number
-  intensity: string
-  scheduledFor: string
-  completed: boolean
-}
-
 const buildApiUrl = () => {
   const codeSpaceName = import.meta.env.VITE_CODESPACE_NAME
   const host = codeSpaceName
@@ -20,8 +9,8 @@ const buildApiUrl = () => {
 }
 
 export default function Workouts() {
-  const [workouts, setWorkouts] = useState<Workout[]>([])
-  const [error, setError] = useState<string | null>(null)
+  const [workouts, setWorkouts] = useState([])
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     fetch(buildApiUrl())

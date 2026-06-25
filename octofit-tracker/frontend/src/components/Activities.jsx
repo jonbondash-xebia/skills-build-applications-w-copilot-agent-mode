@@ -1,29 +1,22 @@
 import { useEffect, useState } from 'react'
 
-interface User {
-  _id: string
-  username: string
-  email: string
-  displayName: string
-}
-
 const buildApiUrl = () => {
   const codeSpaceName = import.meta.env.VITE_CODESPACE_NAME
   const host = codeSpaceName
     ? `https://${codeSpaceName}-8000.app.github.dev`
     : 'http://localhost:8000'
-  return `${host}/api/users/`
+  return `${host}/api/activities/`
 }
 
-export default function Users() {
-  const [users, setUsers] = useState<User[]>([])
-  const [error, setError] = useState<string | null>(null)
+export default function Activities() {
+  const [activities, setActivities] = useState([])
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     fetch(buildApiUrl())
       .then((res) => res.json())
       .then((data) => {
-        setUsers(Array.isArray(data?.data) ? data.data : [])
+        setActivities(Array.isArray(data?.data) ? data.data : [])
       })
       .catch((err) => {
         setError(String(err))
@@ -32,12 +25,13 @@ export default function Users() {
 
   return (
     <section>
-      <h2>Users</h2>
+      <h2>Activities</h2>
       {error && <p className="error">{error}</p>}
       <ul>
-        {users.map((user) => (
-          <li key={user._id}>
-            <strong>{user.displayName}</strong> ({user.username}) — {user.email}
+        {activities.map((activity) => (
+          <li key={activity._id}>
+            {activity.type} — {activity.durationMinutes} min — {activity.caloriesBurned} kcal on{' '}
+            {new Date(activity.timestamp).toLocaleString()}
           </li>
         ))}
       </ul>

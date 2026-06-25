@@ -1,29 +1,22 @@
 import { useEffect, useState } from 'react'
 
-interface Team {
-  _id: string
-  name: string
-  description: string
-  memberIds: string[]
-}
-
 const buildApiUrl = () => {
   const codeSpaceName = import.meta.env.VITE_CODESPACE_NAME
   const host = codeSpaceName
     ? `https://${codeSpaceName}-8000.app.github.dev`
     : 'http://localhost:8000'
-  return `${host}/api/teams/`
+  return `${host}/api/leaderboard/`
 }
 
-export default function Teams() {
-  const [teams, setTeams] = useState<Team[]>([])
-  const [error, setError] = useState<string | null>(null)
+export default function Leaderboards() {
+  const [leaderboard, setLeaderboard] = useState([])
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     fetch(buildApiUrl())
       .then((res) => res.json())
       .then((data) => {
-        setTeams(Array.isArray(data?.data) ? data.data : [])
+        setLeaderboard(Array.isArray(data?.data) ? data.data : [])
       })
       .catch((err) => {
         setError(String(err))
@@ -32,15 +25,15 @@ export default function Teams() {
 
   return (
     <section>
-      <h2>Teams</h2>
+      <h2>Leaderboard</h2>
       {error && <p className="error">{error}</p>}
-      <ul>
-        {teams.map((team) => (
-          <li key={team._id}>
-            <strong>{team.name}</strong>: {team.description}
+      <ol>
+        {leaderboard.map((entry) => (
+          <li key={entry._id}>
+            Rank {entry.rank}: {entry.score} pts ({entry.points} points)
           </li>
         ))}
-      </ul>
+      </ol>
     </section>
   )
 }
