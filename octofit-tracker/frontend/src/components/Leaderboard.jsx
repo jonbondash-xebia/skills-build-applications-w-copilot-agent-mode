@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 
 const buildApiUrl = () => {
   const codeSpaceName = import.meta.env.VITE_CODESPACE_NAME
-  const host = codeSpaceName
-    ? `https://${codeSpaceName}-8000.app.github.dev`
-    : 'http://localhost:8000'
-  return `${host}/api/leaderboard/`
+  return codeSpaceName
+    ? `https://${codeSpaceName}-8000.app.github.dev/api/leaderboard/`
+    : 'http://localhost:8000/api/leaderboard/'
 }
 
 export default function Leaderboards() {

@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 
 const buildApiUrl = () => {
   const codeSpaceName = import.meta.env.VITE_CODESPACE_NAME
-  const host = codeSpaceName
-    ? `https://${codeSpaceName}-8000.app.github.dev`
-    : 'http://localhost:8000'
-  return `${host}/api/workouts/`
+  return codeSpaceName
+    ? `https://${codeSpaceName}-8000.app.github.dev/api/workouts/`
+    : 'http://localhost:8000/api/workouts/'
 }
 
 export default function Workouts() {
