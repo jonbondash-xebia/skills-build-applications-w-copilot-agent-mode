@@ -5,8 +5,9 @@ import { registerApiRoutes } from './routes.js'
 const app = express()
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8000
 const CODESPACE_HOST = process.env.CODESPACE_NAME
-const API_HOST = CODESPACE_HOST ? `${CODESPACE_HOST}-8000.githubpreview.dev` : `localhost:${PORT}`
-const API_URL = process.env.API_URL ?? `http://${API_HOST}`
+const API_URL = process.env.API_URL ?? (CODESPACE_HOST
+  ? `https://${CODESPACE_HOST}-8000.app.github.dev`
+  : `http://localhost:${PORT}`)
 
 app.use(express.json())
 registerApiRoutes(app)
